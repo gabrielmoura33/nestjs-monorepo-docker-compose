@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/enrollments-docker/src",
+  "monorepo": true,
+  "root": "apps/enrollments-docker",
+  "compilerOptions": {
+    "webpack": true,
+    "tsConfigPath": "apps/enrollments-docker/tsconfig.app.json"
+  },
+  "projects": {
+    "enrollments-docker": {
+      "type": "application",
+      "root": "apps/enrollments-docker",
+      "entryFile": "main",
+      "sourceRoot": "apps/enrollments-docker/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/enrollments-docker/tsconfig.app.json"
+      }
+    },
+    "backoffice": {
+      "type": "application",
+      "root": "apps/backoffice",
+      "entryFile": "main",
+      "sourceRoot": "apps/backoffice/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/backoffice/tsconfig.app.json"
+      }
+    }
+  }
+}

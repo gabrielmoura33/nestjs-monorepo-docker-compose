@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:12.9
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: descomplica_smasy_pqsl_dev
+    volumes:
+      - ./database-data:/var/lib/postgresql/data
+    restart: always
+  enrollments:
+    container_name: enrollments_api_dev
+    image: nestjs-api-dev:1.0.0
+    build:
+      context: .
+      target: development
+      dockerfile: ./Dockerfile
+    command: npm run start:debug enrollments
+    ports:
+      - 3000:3000
+    links:
+      - postgres
+    depends_on:
+      - postgres
+    networks:
+      - nesjs-network
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+  backoffice:
+    container_name: backoffice_api_dev
+    image: nestjs-api-dev:1.0.0
+    build:
+      context: .
+      target: development
+      dockerfile: ./Dockerfile
+    command: npm run start:debug backoffice
+    ports:
+      - 3001:3000
+    links:
+      - postgres
+    depends_on:
+      - postgres
+    networks:
+      - nesjs-network
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+networks:
+  nesjs-network:
